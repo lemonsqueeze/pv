@@ -80,12 +80,13 @@ opts_t opts_parse(int argc, char **argv)
 		{"remote", 1, 0, 'R'},
 		{"pidfile", 1, 0, 'P'},
 		{"watchfd", 1, 0, 'd'},
+		{"average-rate-interval", 1, 0, 'm'},
 		{0, 0, 0, 0}
 	};
 	int option_index = 0;
 #endif
 	char *short_options =
-	    "hVpteIrabTA:fnqcWD:s:l0i:w:H:N:F:L:B:CESR:P:d:";
+	    "hVpteIrabTA:fnqcWD:s:l0i:w:H:N:F:L:B:CESR:P:d:m:";
 	int c, numopts;
 	unsigned int check_pid;
 	int check_fd;
@@ -124,6 +125,7 @@ opts_t opts_parse(int argc, char **argv)
 	opts->delay_start = 0;
 	opts->watch_pid = 0;
 	opts->watch_fd = -1;
+	opts->avg_rate_interval = 30;
 
 	do {
 #ifdef HAVE_GETOPT_LONG
@@ -147,6 +149,7 @@ opts_t opts_parse(int argc, char **argv)
 		case 'L':
 		case 'B':
 		case 'R':
+		case 'm':
 			if (pv_getnum_check(optarg, PV_NUMTYPE_INTEGER) !=
 			    0) {
 				fprintf(stderr, "%s: -%c: %s\n",
@@ -310,6 +313,9 @@ opts_t opts_parse(int argc, char **argv)
 			opts->watch_fd = -1;
 			sscanf(optarg, "%u:%d", &(opts->watch_pid),
 			       &(opts->watch_fd));
+			break;
+		case 'm':
+			opts->avg_rate_interval = pv_getnum_i(optarg);
 			break;
 		default:
 #ifdef HAVE_GETOPT_LONG

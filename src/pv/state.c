@@ -10,20 +10,6 @@
 #include <assert.h>
 
 
-/* alloc / realloc history buffer */
-static void pv_alloc_history(pvstate_t state)
-{
-	if (state->history)
-		free(state->history);
-	
-	assert(state->history_len);
-	assert(state->history_interval);
-
-	state->history = calloc(state->history_len, sizeof(state->history[0]));
-	state->history_first = state->history_last = 0;
-	state->history[0].elapsed_sec = 0.0;  /* to be safe, memset() not recommended for doubles */
-}
-
 /*
  * Create a new state structure, and return it, or 0 (NULL) on error.
  */
@@ -50,10 +36,6 @@ pvstate_t pv_state_alloc(const char *program_name)
 	state->splice_failed_fd = -1;
 #endif				/* HAVE_SPLICE */
 	state->display_visible = 0;
-
-	state->history_len = 30+1;  /* default history for current avg rate */
-	state->history_interval = 1;
-	pv_alloc_history(state);
 
 	return state;
 }
@@ -84,6 +66,19 @@ void pv_state_free(pvstate_t state)
 	return;
 }
 
+/* alloc / realloc history buffer */
+static void pv_alloc_history(pvstate_t state)
+{
+	if (state->history)
+		free(state->history);
+	
+	assert(state->history_len);
+	assert(state->history_interval);
+
+	state->history = calloc(state->history_len, sizeof(state->history[0]));
+	state->history_first = state->history_last = 0;
+	state->history[0].elapsed_sec = 0.0;  /* to be safe, memset() not recommended for doubles */
+}
 
 /*
  * Set the formatting string, given a set of old-style formatting options.
@@ -226,6 +221,19 @@ void pv_state_watch_pid_set(pvstate_t state, unsigned int val)
 void pv_state_watch_fd_set(pvstate_t state, int val)
 {
 	state->watch_fd = val;
+};
+
+void pv_state_avg_rate_interval_set(pvstate_t state, int val)
+{	
+	if (val >= 20) {
+		state->history_len = val / 5 + 1;
+		state->history_interval = 5;
+	}
+	else {
+		state->history_len = val + 1;
+		state->history_interval = 1;		
+	}
+	pv_alloc_history(state);
 };
 
 
