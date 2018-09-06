@@ -266,7 +266,7 @@ Note that this can be a decimal such as 0.1.
 .B \-m SEC, \-\-avg-rate-interval SEC
 Compute current average rate over a
 .B SEC
-seconds window for ETA (default 30s).
+seconds window for ETA (default 10s).
 .TP
 .B \-w WIDTH, \-\-width WIDTH
 Assume the terminal is

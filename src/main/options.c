@@ -125,7 +125,7 @@ opts_t opts_parse(int argc, char **argv)
 	opts->delay_start = 0;
 	opts->watch_pid = 0;
 	opts->watch_fd = -1;
-	opts->avg_rate_interval = 30;
+	opts->avg_rate_interval = 10;
 
 	do {
 #ifdef HAVE_GETOPT_LONG
