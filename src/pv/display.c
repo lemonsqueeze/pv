@@ -497,15 +497,7 @@ static char *pv__format(pvstate_t state,
 
 	/* Update history and current average rate for ETA. */
 	update_history_avg_rate(state, total_bytes, elapsed_sec, rate);
-	
-	/*
-	 * We only calculate the overall average rate if this is the last
-	 * update or if the average rate display is enabled. Otherwise it's
-	 * not worth the extra CPU cycles.
-	 */
-	if ((bytes_since_last < 0)
-	    || ((state->components_used & PV_DISPLAY_AVERAGERATE) != 0))
-			average_rate = state->current_avg_rate;
+	average_rate = state->current_avg_rate;
 
 	if (state->size <= 0) {
 		/*
