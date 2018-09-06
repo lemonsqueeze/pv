@@ -504,17 +504,8 @@ static char *pv__format(pvstate_t state,
 	 * not worth the extra CPU cycles.
 	 */
 	if ((bytes_since_last < 0)
-	    || ((state->components_used & PV_DISPLAY_AVERAGERATE) != 0)) {
-		/* Sanity check to avoid division by zero */
-		if (elapsed_sec < 0.000001)
-			elapsed_sec = 0.000001;
-		average_rate =
-		    (((long double) total_bytes) -
-		     ((long double) state->initial_offset)) /
-		    (long double) elapsed_sec;
-		if (bytes_since_last < 0)
-			rate = average_rate;
-	}
+	    || ((state->components_used & PV_DISPLAY_AVERAGERATE) != 0))
+			average_rate = state->current_avg_rate;
 
 	if (state->size <= 0) {
 		/*
