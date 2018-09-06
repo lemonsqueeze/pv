@@ -202,7 +202,7 @@ int main(int argc, char **argv)
 	pv_state_format_string_set(state, opts->format);
 	pv_state_watch_pid_set(state, opts->watch_pid);
 	pv_state_watch_fd_set(state, opts->watch_fd);
-	pv_state_avg_rate_interval_set(state, opts->avg_rate_interval);
+	pv_state_rate_window_set(state, opts->rate_window);
 
 	pv_state_set_format(state, opts->progress, opts->timer, opts->eta,
 			    opts->fineta, opts->rate, opts->average_rate,

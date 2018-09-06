@@ -223,7 +223,7 @@ void pv_state_watch_fd_set(pvstate_t state, int val)
 	state->watch_fd = val;
 };
 
-void pv_state_avg_rate_interval_set(pvstate_t state, int val)
+void pv_state_rate_window_set(pvstate_t state, int val)
 {	
 	if (val >= 20) {
 		state->history_len = val / 5 + 1;
