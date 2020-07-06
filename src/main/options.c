@@ -80,7 +80,7 @@ opts_t opts_parse(int argc, char **argv)
 		{"remote", 1, 0, 'R'},
 		{"pidfile", 1, 0, 'P'},
 		{"watchfd", 1, 0, 'd'},
-		{"rate-window", 1, 0, 'm'},
+		{"eta-window", 1, 0, 'm'},
 		{0, 0, 0, 0}
 	};
 	int option_index = 0;
@@ -125,7 +125,7 @@ opts_t opts_parse(int argc, char **argv)
 	opts->delay_start = 0;
 	opts->watch_pid = 0;
 	opts->watch_fd = -1;
-	opts->rate_window = 10;
+	opts->eta_window = 10;
 
 	do {
 #ifdef HAVE_GETOPT_LONG
@@ -315,7 +315,7 @@ opts_t opts_parse(int argc, char **argv)
 			       &(opts->watch_fd));
 			break;
 		case 'm':
-			opts->rate_window = pv_getnum_i(optarg);
+			opts->eta_window = pv_getnum_i(optarg);
 			break;
 		default:
 #ifdef HAVE_GETOPT_LONG
