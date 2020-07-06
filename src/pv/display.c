@@ -78,7 +78,7 @@ static long pv__calc_eta(const long long so_far, const long long total,
 {
 	long long amount_left;
 
-	if (so_far < 1)
+	if (so_far < 1 || !rate)
 		return 0;
 
 	amount_left = (total - so_far) / rate;
